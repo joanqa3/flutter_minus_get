@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_minus_get/controlers/counter_controler.dart';
 import 'package:flutter_minus_get/utils/counter.dart';
 import 'package:flutter_minus_get/widgets/button_control.dart';
+import 'package:get/get.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+//import 'package:flutter_minus_get/widgets/button_control.dart';
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  final Counter counter = Counter();
-
+class HomePageGetx extends StatelessWidget {
+  HomePageGetx({Key? key}) : super(key: key);
+  //final Counter counter = Counter();
   @override
   Widget build(BuildContext context) {
+    final CounterController counterController = Get.put(CounterController());
     return Scaffold(
       appBar: AppBar(),
       floatingActionButton: Row(
@@ -22,10 +20,9 @@ class _HomePageState extends State<HomePage> {
           ButtonControl(
             icon: Icons.add,
             onPressed: () {
-              setState(() {
-                //counter.value++;
-                counter.increment();
-              });
+              //counter.value++;
+              //counter.increment();
+              counterController.increment();
             },
           ),
           const SizedBox(
@@ -33,9 +30,8 @@ class _HomePageState extends State<HomePage> {
           ),
           ButtonControl(
             onPressed: () {
-              setState(() {
-                counter.value--;
-              });
+              //counter.value--;
+              counterController.decrement();
             },
             icon: Icons.remove,
           ),
@@ -44,9 +40,8 @@ class _HomePageState extends State<HomePage> {
           ),
           FloatingActionButton(
             onPressed: () {
-              setState(() {
-                counter.value = 0;
-              });
+              //counter.value = 0;
+              counterController.clear();
             },
             child: const Text(
               "AC",
@@ -55,10 +50,13 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: Center(
-        child: Text(
-          counter.value.toString(),
-          style: const TextStyle(fontSize: 50),
+      body: Obx(
+        () => Center(
+          child: Text(
+            //counter.value.toString(),
+            counterController.result.value.toString(),
+            style: const TextStyle(fontSize: 50),
+          ),
         ),
       ),
     );
